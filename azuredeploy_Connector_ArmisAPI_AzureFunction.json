@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "FunctionName": {
-            "defaultValue": "Armis",
+            "defaultValue": "Alerts",
             "minLength": 1,
             "maxLength": 11,
             "type": "string"
@@ -20,35 +20,23 @@
             "type": "securestring",
             "defaultValue": "<ArmisSecretKey>"
         },
-        "ArmisURL": {
+        "ArmisURL":{
             "type": "string",
             "defaultValue": "<ArmisURL>"
         },
-        "ArmisDeviceTableName": {
-            "type": "string",
-            "defaultValue": "<ArmisDeviceTableName>"
-        },
-        "ArmisAlertsTableName": {
+        "ArmisAlertsTableName":{
             "type": "string",
             "defaultValue": "<ArmisAlertsTableName>"
         },
-        "ArmisActivitiesTableName": {
+        "ArmisSchedule":{
             "type": "string",
-            "defaultValue": "<ArmisActivitiesTableName>"
-        },
-        "Interval": {
-            "type": "string",
-            "defaultValue": "0 * * * *"
-        },
-        "StartTime": {
-            "type": "string",
-            "defaultValue": "07/01/2021 00:00:00"
+            "defaultValue": "<Cron Expression>"
         }
     },
     "variables": {
         "FunctionName": "[concat(toLower(parameters('FunctionName')), uniqueString(resourceGroup().id))]",
-        "StorageSuffix": "[environment().suffixes.storage]",
-        "LogAnaltyicsUri": "[replace(environment().portal, 'https://portal', concat('https://', toLower(parameters('WorkspaceID')), '.ods.opinsights'))]"
+         "StorageSuffix": "[environment().suffixes.storage]",
+         "LogAnaltyicsUri": "[replace(environment().portal, 'https://portal', concat('https://', toLower(parameters('WorkspaceID')), '.ods.opinsights'))]"
     },
     "resources": [
         {
@@ -174,12 +162,9 @@
                         "WorkspaceKey": "[parameters('WorkspaceKey')]",
                         "ArmisSecretKey": "[parameters('ArmisSecretKey')]",
                         "ArmisURL": "[parameters('ArmisURL')]",
-                        "ArmisDeviceTableName": "[parameters('ArmisDeviceTableName')]",
                         "ArmisAlertsTableName": "[parameters('ArmisAlertsTableName')]",
-                        "ArmisActivitiesTableName": "[parameters('ArmisActivitiesTableName')]",
-                        "Interval": "[parameters('Interval')]",
-                        "StartTime": "[parameters('StartTime')]",
-                        "WEBSITE_RUN_FROM_PACKAGE": "https://github.com/PreetMParikh/Azure-Sentinel-Alerts/blob/main/ArmisAlertTrigger.zip?raw=true"
+                        "Schedule": "[parameters('ArmisSchedule')]",
+                        "WEBSITE_RUN_FROM_PACKAGE": "https://github.com/PreetMParikh/Azure-Sentinel-Alerts/blob/main/ArmisAlertSentinelConnector.zip?raw=true"
                     }
                 }
             ]
